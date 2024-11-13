@@ -11,7 +11,9 @@ from langflow.schema import Data
 class GitLoaderComponent(Component):
     display_name = "GitLoader"
     description = "Load files from a Git repository"
-    documentation = "https://python.langchain.com/v0.2/docs/integrations/document_loaders/git/"
+    documentation = (
+        "https://python.langchain.com/v0.2/docs/integrations/document_loaders/git/"
+    )
     trace_type = "tool"
     icon = "GitLoader"
     name = "GitLoader"
@@ -78,8 +80,16 @@ class GitLoaderComponent(Component):
             def file_filter(file_path: Path) -> bool:
                 if len(patterns) == 1 and patterns[0].startswith("!"):
                     return not file_path.match(patterns[0][1:])
-                included = any(file_path.match(pattern) for pattern in patterns if not pattern.startswith("!"))
-                excluded = any(file_path.match(pattern[1:]) for pattern in patterns if pattern.startswith("!"))
+                included = any(
+                    file_path.match(pattern)
+                    for pattern in patterns
+                    if not pattern.startswith("!")
+                )
+                excluded = any(
+                    file_path.match(pattern[1:])
+                    for pattern in patterns
+                    if pattern.startswith("!")
+                )
                 return included and not excluded
 
             file_filters.append(file_filter)
